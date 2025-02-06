@@ -20,6 +20,7 @@ class Naveenprime {
                 {
                     System.out.println("number is prime " +num);
                     break;
+
                 }
             }
 

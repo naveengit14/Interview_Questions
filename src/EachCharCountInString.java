@@ -7,8 +7,7 @@ public class EachCharCountInString {
     static void charaterCount( String input) {
               //Creating a HashMap containing char a key and occurance as value
         HashMap<Character, Integer> charCountMap = new HashMap<Character, Integer>();
-        // converting given string in Char array
-
+        // converting given string in Char arry
         char[] strArray = input.toCharArray();
         // check each char of the strArray
         for (char c : strArray) {
@@ -22,8 +21,8 @@ public class EachCharCountInString {
             }
         }
         System.out.println(charCountMap);
-        System.out.println(Collections.max(charCountMap.values()));
-        System.out.println();
+       // System.out.println(Collections.max(charCountMap.values()));
+        //System.out.println();
 
     }
     public static void main(String [] args){

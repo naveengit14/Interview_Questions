@@ -1,7 +1,7 @@
 public class RepeatOfWordInString {
     public static void main(String[] args) {
-       // String string = "Big black bug bit a big black dog on his big black nose";
-        String string ="Java again and again come in this java program";
+        String string = "Big black bug bit a big black dog on his big black nose";
+       // String string ="Java again and again come in this java program";
         int count;
 
         //Converts the string into lowercase
