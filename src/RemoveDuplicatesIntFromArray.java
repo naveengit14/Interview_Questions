@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class RemoveDuplicates {
+public class RemoveDuplicatesIntFromArray {
     public static int[] removeDuplicates(int[] arr) {
         HashSet<Integer> set = new HashSet<>();
         for (int num : arr) {
