@@ -16,6 +16,8 @@ public class FactorialNum {
         calfact(3);
 
     }
+
+
 }
 
 
