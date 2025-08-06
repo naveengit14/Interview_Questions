@@ -1,0 +1,514 @@
+package SeleniumPractice;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.net.MulticastSocket;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.Vector;
+import java.util.concurrent.TimeUnit;
+
+//import org.apache.poi.xssf.usermodel.XSSFSheet;
+//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;
+public class SeleniumJanuary {
+
+    WebDriver driver;
+
+    @Test(enabled = false, groups = { "selenium" })
+    public void getSelenium() {
+
+        /*
+         * System.setProperty("webdriver.ie.driver", "path of IE driver"); WebDriver
+         * ieDriver = new InternetExplorerDriver();
+         *
+         * System.setProperty("webdriver.chrome.driver", "path of chrome driver");
+         * WebDriver chromeDriver = new ChromeDriver();
+         *
+         * System.setProperty("webdriver.gecko.driver", "Path of gecko driver");
+         * WebDriver ffDriver = new FirefoxDriver();
+         */
+
+       // WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://www.google.com");
+        driver.navigate().to("https://demo.guru99.com/test/web-table-element.php");
+        driver.getTitle();
+        driver.getCurrentUrl();
+
+        try {
+            driver.findElement(By.id("id"));
+            driver.findElement(By.name("name"));
+            driver.findElement(By.xpath("xapth"));
+            driver.findElement(By.cssSelector("cssSelector"));
+            driver.findElement(By.tagName("tagName"));
+            driver.findElement(By.className("className"));
+            driver.findElement(By.linkText("linkText"));
+            driver.findElement(By.partialLinkText("partialLinktext"));
+
+            driver.findElement(By.xpath("xpath")).getAttribute("value");
+
+            driver.findElement(By.xpath("")).click();
+            driver.findElement(By.xpath("")).sendKeys("text");
+            driver.findElement(By.xpath("")).getText();
+
+            driver.findElement(By.xpath("")).isEnabled();
+            driver.findElement(By.xpath("")).isDisplayed();
+            driver.findElement(By.xpath("")).isSelected();
+
+            driver.navigate().forward();
+            driver.navigate().back();
+            driver.navigate().refresh();
+
+            driver.switchTo().alert().accept();
+            driver.switchTo().alert().dismiss();
+            driver.switchTo().alert().getText();
+
+            driver.switchTo().frame("iframe");
+            driver.switchTo().parentFrame();
+
+            driver.manage().window().maximize();
+            driver.manage().window().fullscreen();
+
+            driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+
+            WebDriverWait driverWait = new WebDriverWait(driver, 60);
+            driverWait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(""))));
+            driverWait.until(ExpectedConditions.elementToBeSelected(driver.findElement(By.xpath(""))));
+            driverWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(""))));
+
+            FluentWait fluentWait = new FluentWait(driver);
+            fluentWait.withTimeout(60, TimeUnit.SECONDS);
+            fluentWait.pollingEvery(10, TimeUnit.SECONDS);
+            fluentWait.ignoring(NoSuchElementException.class);
+            fluentWait.until(ExpectedConditions.alertIsPresent());
+
+            String pWindow = driver.getWindowHandle();
+            Set<String> windows = driver.getWindowHandles();
+            for (String window : windows) {
+                driver.switchTo().window(window);
+            }
+
+            Select select = new Select(driver.findElement(By.xpath("")));
+            select.selectByIndex(0);
+            select.selectByValue("value");
+            select.selectByVisibleText("visible text");
+            select.deselectByIndex(0);
+            select.deselectByValue("value");
+            select.deselectByVisibleText("visible text");
+
+            Actions actions = new Actions(driver);
+            actions.dragAndDrop(driver.findElement(By.xpath("")), driver.findElement(By.xpath(""))).build().perform();
+            actions.moveToElement(driver.findElement(By.xpath(""))).perform(); // Mouse Hover
+
+            WebElement table = driver.findElement(By.xpath("//table"));
+            List<WebElement> rows = table.findElements(By.tagName("<tr>"));
+
+            for (int i = 0; i < rows.size(); i++) {
+                List<WebElement> columns = rows.get(i).findElements(By.tagName("<td>"));
+
+                for (int j = 0; j < columns.size(); j++) {
+                    WebElement col = columns.get(j);
+                    String colName = col.getText();
+                    if (colName.equals("newyork")) {
+                        col.click();
+                        col.sendKeys("text");
+                    }
+                }
+            }
+
+            TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        } finally {
+            driver.manage().window().maximize();
+            driver.close();
+            driver.quit();
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getExcelReader() {
+        try {
+            File file = new File("//data.xlsx");
+            FileInputStream fis = new FileInputStream(file);
+            XSSFWorkbook xSSFWorkbook = new XSSFWorkbook(fis);
+            XSSFSheet xSSFSheet = xSSFWorkbook.getSheet("login");
+
+            for (int i = 0; i <= xSSFSheet.getLastRowNum(); i++) {
+
+                for (int j = 0; j < xSSFSheet.getRow(i).getLastCellNum(); j++) {
+                    String cell = xSSFSheet.getRow(i).getCell(j).toString();
+                    System.out.print(cell + " ");
+                }
+            }
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getValidateArrayList() {
+        ArrayList<Object> arrayList = new ArrayList<Object>();
+        arrayList.add(25);
+        arrayList.add('a');
+        arrayList.add("java");
+        arrayList.add(false);
+
+        for (Object obj : arrayList) {
+            if (obj instanceof Integer) {
+                System.out.println("Object is Integer " + obj);
+            }
+            if (obj instanceof Character) {
+                System.out.println("Object is Character " + obj);
+            }
+            if (obj instanceof String) {
+                System.out.println("Object is String " + obj);
+            }
+            if (obj instanceof Boolean) {
+                System.out.println("Object is Boolean " + obj);
+            }
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getArrayListToArray() {
+        ArrayList<String> arrayList = new ArrayList<String>();
+        arrayList.add("java");
+        arrayList.add("slenium");
+        arrayList.add("pom");
+        arrayList.add("maven");
+
+        String[] arr = new String[arrayList.size()];
+
+        for (int i = 0; i < arrayList.size(); i++) {
+            arr[i] = arrayList.get(i);
+        }
+
+        for (String str : arr) {
+            System.out.println(str);
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getSearchElement() {
+        int searchNumber = 5;
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(54);
+        arrayList.add(15);
+        arrayList.add(5);
+        arrayList.add(-4);
+
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (searchNumber == arrayList.get(i)) {
+                System.out.println("Number is " + searchNumber);
+            }
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getArrayToArrayList() {
+        int[] arr = { 45, 2, 15, 89, -52, 69 };
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for (int i : arr) {
+            list.add(i);
+        }
+
+        System.out.println("Arraylist " + list);
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getHashMap() {
+        HashMap<Integer, String> hashMap = new HashMap<Integer, String>();
+        hashMap.put(4, "B");
+        hashMap.put(3, "A");
+        hashMap.put(1, "D");
+        hashMap.put(2, "C");
+
+        for (Map.Entry<Integer, String> m : hashMap.entrySet()) {
+            System.out.println(m.getKey() + " " + m.getValue());
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getStringFunctions() {
+        String str = "36yufgyhb4f6g5hj4rg6yuv75";
+        System.out.println(str.replaceAll("[^0-9]", "*"));
+        System.out.println(str.replaceAll("[0-9]", "*"));
+
+        System.out.println(str.replace('y', 'Y'));
+        System.out.println(str.toUpperCase());
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getDuplicateFromString() {
+        String strOne = "Big america shots are live in america live";
+        String[] arr = strOne.split("\\s");
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i].equals(arr[j])) {
+                    System.out.println(arr[i]);
+                }
+            }
+        }
+
+        Set<String> hashSet = new HashSet<String>();
+        for (int k = 0; k < arr.length; k++) {
+            if (hashSet.add(arr[k]) == false) {
+                System.out.println("Duplicate String: " + arr[k]);
+            }
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getFabonacci() {
+        int n1 = 0, n2 = 1, n3 = 0;
+        System.out.print(n1 + " " + n2 + " ");
+        for (int i = 0; i < 10; i++) {
+            n3 = n1 + n2;
+            System.out.print(n3 + " ");
+            n1 = n2;
+            n2 = n3;
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getDataTypeConversion() {
+        String str = "55";
+        System.out.println("String to Integer - " + Integer.parseInt(str));
+
+        int i = 55;
+        System.out.println("Integer to String - " + String.valueOf(i));
+
+        char c = 'e';
+        System.out.println("Character to String - " + String.valueOf(c));
+
+        boolean bol = false;
+        System.out.println("Boolean to String - " + String.valueOf(bol));
+
+        // char array to string
+        char[] arr = { 'j', 'a', 'v', 'a' };
+        String charToStr = new String(arr);
+        System.out.println("Char array to String - " + charToStr);
+
+        // String to char array
+        String strOne = "selenium";
+        char[] strToCharArr = strOne.toCharArray();
+        System.err.println(strToCharArr);
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getReverseString() {
+        String str = "javaselenium";
+        StringBuffer sb = new StringBuffer(str);
+        System.out.println("Reverse String - " + sb.reverse());
+
+        for (int i = str.length() - 1; i >= 0; i--) {
+            System.out.print(str.charAt(i));
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getVowelCheck() {
+        String vowel = "aeiou";
+        String str = "japane";
+
+        for (int i = 0; i < str.length(); i++) {
+            int count = 0;
+            for (int j = 0; j < vowel.length(); j++) {
+                if (str.charAt(i) == vowel.charAt(j)) {
+                    count++;
+                }
+            }
+            if (count > 0) {
+                System.out.println("String contains vowel " + str.charAt(i));
+            }
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getPrimeNumber() {
+        for (int i = 2; i < 20; i++) {
+            int count = 0;
+            for (int j = 2; j < 20; j++) {
+                if (i % j == 0) {
+                    count++;
+                }
+            }
+            if (count == 1) {
+                System.out.print(i + " ");
+            }
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getOddNumber() {
+        System.out.println("Prime Numbers: ");
+        for (int i = 1; i < 20; i++) {
+            if (i % 2 != 0) {
+                System.out.print(i + " ");
+            }
+        }
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getStringReverseMatch() {
+        String str = "ram";
+        String compareStr = "";
+
+        for (int i = str.length() - 1; i >= 0; i--) {
+            compareStr = compareStr + str.charAt(i);
+        }
+
+        if (str.equals(compareStr)) {
+            System.out.println(false);
+        } else
+            System.out.println(false);
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getCollections() {
+        List arrayList = new ArrayList();
+        List linkedList = new LinkedList();
+        List vector = new Vector();
+        List stack = new Stack();
+
+        Set hashSet = new HashSet();
+        Set linkedHashSet = new LinkedHashSet();
+        Set treeSet = new TreeSet();
+
+        Map hashMap = new HashMap();
+        Map hashtable = new Hashtable();
+        Map treeMap = new TreeMap();
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getHashMapSorting() {
+        Map<Integer, String> hashMap = new HashMap<Integer, String>();
+        hashMap.put(3, "B");
+        hashMap.put(4, "A");
+        hashMap.put(1, "C");
+        hashMap.put(2, "D");
+
+        for (Map.Entry<Integer, String> m : hashMap.entrySet()) {
+            System.out.println(m.getKey() + " " + m.getValue());
+        }
+
+        System.out.println("Key Sorted ASC");
+        hashMap.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(System.out::println);
+        System.out.println("Value Sorted ASC");
+        hashMap.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEach(System.out::println);
+        System.out.println("Key Sorted DESC");
+        hashMap.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
+                .forEach(System.out::println);
+        System.out.println("Value Sorted DESC");
+        hashMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEach(System.out::println);
+    }
+
+    @Test(enabled = false, groups = { "java" })
+    public void getCharCount() {
+        String str = "addition";
+        char[] arrChar = str.toCharArray();
+        Map<Character, Integer> hashMap = new HashMap<Character, Integer>();
+
+        for (int i = 0; i < arrChar.length; i++) {
+            int count = 0;
+            for (int j = 0; j < arrChar.length; j++) {
+                if (str.charAt(i) == arrChar[j]) {
+                    count++;
+                    hashMap.put(str.charAt(i), count);
+                }
+            }
+        }
+
+        hashMap.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(System.out::println);
+    }
+
+    /*
+     * String str = "aaaabbbccd" O/P = "4a3b2c1d"
+     */
+    @Test(enabled = false, groups = { "java" })
+    public void getCharMap() {
+        String str = "aaaabbbccd";
+        char[] charArr = str.toCharArray();
+        Map<Integer, Character> hashMap = new HashMap<Integer, Character>();
+
+        for (int i = 0; i < charArr.length; i++) {
+            int count = 0;
+            for (int j = 0; j < charArr.length; j++) {
+                if (str.charAt(i) == charArr[j]) {
+                    count++;
+                    hashMap.put(count, str.charAt(i));
+                }
+            }
+        }
+
+        for (Map.Entry<Integer, Character> m : hashMap.entrySet()) {
+            System.out.print(m.getKey() + "" + m.getValue());
+        }
+    }
+
+    /*
+     * String str = "aaaabbbccd" O/P = "4a3b2c1d"
+     */
+    @Test(enabled = false, groups = { "java" })
+    public void getStringMap() {
+        String str = "aaaabbbccd";
+        String[] arr = new String[str.length()];
+        Map<String, Integer> hashMap = new HashMap<String, Integer>();
+
+        for (int i = 0; i < str.length(); i++) {
+            arr[i] = str.substring(i, i + 1);
+        }
+
+        for (String ar : arr) {
+            Integer count = hashMap.get(ar);
+            if (count == null) {
+                hashMap.put(ar, 1);
+            } else {
+                hashMap.put(ar, ++count);
+            }
+        }
+
+        for (Map.Entry<String, Integer> m : hashMap.entrySet()) {
+            System.out.print(m.getValue() + m.getKey());
+        }
+    }
+
+
+
+
+}
